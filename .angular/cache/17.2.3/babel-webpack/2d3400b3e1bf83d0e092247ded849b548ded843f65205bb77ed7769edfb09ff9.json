@@ -1,0 +1,1 @@
+{"ast":null,"code":"const objeto = require('src/assets/logos.json').objeto;\nexport default objeto;","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}

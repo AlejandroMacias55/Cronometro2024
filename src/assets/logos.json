@@ -1,0 +1,182 @@
+{
+    "partidos": [
+      {
+        "imagen": "./assets/logos/partidos/pan.png",
+        "clase": 1,
+        "id": 1,
+        "nombre": "Partido Acción Nacional",
+        "acronimo": "PAN",
+        "color": "#C0392B"
+      },
+      {
+        "imagen": "./assets/logos/partidos/PRI.png",
+        "clase": 1,
+        "id": 2,
+        "nombre": "Partido Revolucionario Institucional",
+        "acronimo": "PRI",
+        "color": "#E74C3C"
+      },
+      {
+        "imagen": "./assets/logos/partidos/prd.png",
+        "clase": 1,
+        "id": 3,
+        "nombre": "Partido de la Revolucion Democratica",
+        "acronimo": "PRD",
+        "color": "#9B59B6"
+      },
+      {
+        "imagen": "./assets/logos/partidos/PT.png",
+        "clase": 1,
+        "id": 4,
+        "nombre": "Partido del Trabajo",
+        "acronimo": "PT",
+        "color": "#8E44AD"
+      },
+      {
+        "imagen": "./assets/logos/partidos/pvem.png",
+        "clase": 1,
+        "id": 5,
+        "nombre": "Partido Verde Ecologista de Mexico",
+        "acronimo": "PVEM",
+        "color": "#2980B9"
+      },
+      {
+        "imagen": "./assets/logos/partidos/mc.png",
+        "clase": 1,
+        "id": 6,
+        "nombre": "Movimiento Ciudadano",
+        "acronimo": "MC",
+        "color": "#3498DB"
+      },
+      {
+        "imagen": "./assets/logos/partidos/MORENA.png",
+        "clase": 1,
+        "id": 7,
+        "nombre": "Morena",
+        "acronimo": "MORENA",
+        "color": "#1ABC9C"
+      },
+      {
+        "imagen": "./assets/logos/partidos/naz.png",
+        "clase": 1,
+        "id": 8,
+        "nombre": "Nueva Alianza Zacatecas",
+        "acronimo": "NAZ",
+        "color": "#16A085"
+      },
+      {
+        "imagen": "./assets/logos/partidos/MAZ.png",
+        "clase": 1,
+        "id": 9,
+        "nombre": "Movimiento Alternativa Zacatecas",
+        "acronimo": "PAZ",
+        "color": "#27AE60"
+      },
+      {
+        "imagen": "./assets/logos/partidos/RPZ.png",
+        "clase": 1,
+        "id": 10,
+        "nombre": "Revolución Polular Zacatecas",
+        "acronimo": "MDZ",
+        "color": "#2ECC71"
+      },
+      {
+        "imagen": "./assets/logos/partidos/FMZ.png",
+        "clase": 1,
+        "id": 11,
+        "nombre": "Partido Fuerza por México Zacatecas",
+        "acronimo": "PP",
+        "color": "#F1C40F"
+      },
+      {
+        "imagen": "./assets/logos/partidos/PES.png",
+        "clase": 1,
+        "id": 12,
+        "nombre": "Partido Encuentro Solidario Zacatecas",
+        "acronimo": "PES",
+        "color": "#E67E22"
+      },
+      {
+        "imagen": "./assets/logos/partidos/cand_ind_1.png",
+        "clase": 1,
+        "id": 34,
+        "nombre": "Abdel Advache González",
+        "acronimo": "CAND_IND_1",
+        "color": "#95A5A6"
+      }
+    ],
+    "coalisiones": [
+      {
+        "imagen": "./assets/logos/coaliciones/pan_pri_prd.png",
+        "clase": 3,
+        "id": 16,
+        "nombre": "Coalición Fuerza y Corazón por Zacatecas",
+        "acronimo": "PAN_PRI_PRD",
+        "color": "#F5B7B1"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/pan_pri.png",
+        "clase": 2,
+        "id": 17,
+        "nombre": "Coalición Fuerza y Corazón por Zacatecas",
+        "acronimo": "PAN_PRI",
+        "color": "#D7BDE2"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/pan_prd.png",
+        "clase": 2,
+        "id": 18,
+        "nombre": "Coalición Fuerza y Corazón por Zacatecas",
+        "acronimo": "PAN_PRD",
+        "color": "#D2B4DE"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/pri_prd.png",
+        "clase": 2,
+        "id": 19,
+        "nombre": "Coalición Fuerza y Corazón por Zacatecas",
+        "acronimo": "PRI_PRD",
+        "color": "#A9CCE3"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/PT_NAZ_PES.png",
+        "clase": 3,
+        "id": 20,
+        "nombre": "Coalición La Esperanza nos Une",
+        "acronimo": "PT_NAZ_PES",
+        "color": "#AED6F1"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/PT_NAZ.png",
+        "clase": 2,
+        "id": 21,
+        "nombre": "Coalición La Esperanza nos Une",
+        "acronimo": "PT_NAZ",
+        "color": "#A3E4D7"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/PT_PES.png",
+        "clase": 2,
+        "id": 22,
+        "nombre": "Coalición La Esperanza nos Une",
+        "acronimo": "PT_PES",
+        "color": "#A2D9CE"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/NAZ_PES.png",
+        "clase": 2,
+        "id": 23,
+        "nombre": "Coalición La Esperanza nos Une",
+        "acronimo": "NAZ_PES",
+        "color": "#E59866"
+      },
+      {
+        "imagen": "./assets/logos/coaliciones/PVEM_MORENA.png",
+        "clase": 2,
+        "id": 24,
+        "nombre": "Coalición Sigamos Haciendo Historia en Zacatecas",
+        "acronimo": "PVEM_MORENA",
+        "color": "#A2D9CE"
+      }
+    ]
+}

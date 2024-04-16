@@ -8,4 +8,6 @@ export class Candidato {
     // tiempo_seg_moderacion: Tiempo;
     tiempo_segmento1: Tiempo;
     tiempo_segmento2: Tiempo;
+    tiempo_tema: Tiempo;
+    tiempo_dis: Tiempo;
   }

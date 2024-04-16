@@ -57,6 +57,8 @@ export class AppComponent {
   claveTiempo: string;
   //para saber si es resumen o segmentos
   banderaResumen = true;
+  //Para saber si es tema
+  banderaTema= true;
   // Bandera para saber si alguien está hablando
   banderaTransmitir = false;
   //Bandera para el ajuste de los tiempos de un candidato
@@ -163,15 +165,25 @@ export class AppComponent {
           terminado: false,
         },
         tiempo_segmento1: {
-          min: this.confInicial.tiempo_segmento_min,
-          seg: this.confInicial.tiempo_segmento_seg,
+          min: 0,
+          seg: 15,
           terminado: false,
         },
         tiempo_segmento2: {
-          min: this.confInicial.tiempo_segmento_min,
-          seg: this.confInicial.tiempo_segmento_seg,
+          min: 0,
+          seg: 45,
           terminado: false,
         },
+        tiempo_tema: {
+          min: 1,
+          seg: 30,
+          terminado: false,
+        },
+        tiempo_dis:{
+          min:1,
+          seg:0,
+          terminado:false,
+        }
       };
       array.push(candidato);
     }
@@ -205,6 +217,7 @@ export class AppComponent {
     this.tipoTiempo = 'Listo Para Comenzar';
     this.banderaPreparados = true;
     this.banderaResumen = true;
+    this.banderaTema = true;
     this.detenerTiempo();
   }
 
@@ -349,6 +362,7 @@ export class AppComponent {
     this.estado = new Array<Estado>();
     this.banderaPreparados = false;
     this.banderaResumen = true;
+    this.banderaTema = true;
     this.banderaCierre = false;
     this.numeroBloque = 1;
     this.iniciarSeleccionado();
@@ -391,7 +405,11 @@ export class AppComponent {
         ? 'tiempo_exposicion'
         : // : this.tipoTiempo == 'SEGUIMIENTO MODERACIÓN'
         // ? 'tiempo_seg_bolsa'
-        this.tipoTiempo == 'PRIMER SEGMENTO'
+        this.tipoTiempo == 'TEMA'
+        ? 'tiempo_tema':
+        this.tipoTiempo == 'DISCUSION'
+        ? 'tiempo_dis':
+        this.tipoTiempo == 'PREGUNTA'
         ? 'tiempo_segmento1'
         : 'tiempo_segmento2';
     this.detenerTiempo();
@@ -400,6 +418,17 @@ export class AppComponent {
     this.candidatoSeleccionado.id_logo = this.candidatosArray[index].id_logo;
     this.candidatoSeleccionado.nombre = this.candidatosArray[index].nombre;
     if (this.banderaResumen) {
+      this.candidatoSeleccionado.tiempo.min = this.candidatosArray[index][
+        this.claveTiempo
+      ].min;
+      this.candidatoSeleccionado.tiempo.seg = this.candidatosArray[index][
+        this.claveTiempo
+      ].seg;
+      this.candidatoSeleccionado.tiempo.terminado = this.candidatosArray[index][
+        this.claveTiempo
+      ].terminado;
+    }
+    if (this.banderaTema) {
       this.candidatoSeleccionado.tiempo.min = this.candidatosArray[index][
         this.claveTiempo
       ].min;
@@ -486,6 +515,16 @@ export class AppComponent {
             seg: 0,
             terminado: false,
           },
+          tiempo_tema: {
+            min: 0,
+            seg: 0,
+            terminado: false,
+          },
+          tiempo_dis:{
+            min: 0,
+            seg: 0,
+            terminado:false,
+          },
         };
         array.push(candidato);
       }
@@ -509,12 +548,15 @@ export class AppComponent {
       this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
       this.dialogCerrar.close();
       this.banderaResumen = true;
+      this.banderaTema=true;
       this.banderaCierre = true;
     }
   }
   ///Tiempo
   inicarTemporizador() {
-    if (!this.banderaResumen)
+    if (!this.banderaResumen )
+      this.candidatoSeleccionado.tiempo.terminado = false;
+    if (!this.banderaTema )
       this.candidatoSeleccionado.tiempo.terminado = false;
     this.detenerTiempo();
     document
@@ -531,6 +573,7 @@ export class AppComponent {
     this.tempo = setInterval(() => this.temporizar(), 1000);
   }
 
+
   detenerTiempo() {
     let conf = this.almacenamientoLocal.getConfInicial();
     this.confInicial.tiempo_bolsa_min = conf.tiempo_bolsa_min;
@@ -542,6 +585,8 @@ export class AppComponent {
         // 'tiempo_seg_bolsa',
         'tiempo_segmento1',
         'tiempo_segmento2',
+        'tiempo_tema',
+        'tiempo_dis',
       ];
       botones.forEach((element) => {
         try {
@@ -587,7 +632,35 @@ export class AppComponent {
           this.dejarTransmitir();
         }
       }
-    } else {
+    } 
+    //bandera tema prueba
+    if (this.banderaTema) {
+      this.candidatosArray[this.indexCandidatoArray][this.claveTiempo].seg--;
+      if (--this.candidatoSeleccionado.tiempo.seg < 0) {
+        this.candidatoSeleccionado.tiempo.seg = 59;
+        this.candidatosArray[this.indexCandidatoArray][
+          this.claveTiempo
+        ].seg = 59;
+        this.candidatosArray[this.indexCandidatoArray][this.claveTiempo].min--;
+        if (--this.candidatoSeleccionado.tiempo.min < 0) {
+          this.candidatoSeleccionado.tiempo.seg = 0;
+          this.candidatoSeleccionado.tiempo.min = 0;
+          this.candidatoSeleccionado.tiempo.terminado = true;
+          //
+          this.candidatosArray[this.indexCandidatoArray][
+            this.claveTiempo
+          ].seg = 0;
+          this.candidatosArray[this.indexCandidatoArray][
+            this.claveTiempo
+          ].min = 0;
+          this.candidatosArray[this.indexCandidatoArray][
+            this.claveTiempo
+          ].terminado = true;
+          this.detenerTiempo();
+          this.dejarTransmitir();
+        }
+      }
+    }else {
       if (this.descontarBolsa()) this.descontarSegmentoDiscusion();
     }
     this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
@@ -671,6 +744,18 @@ export class AppComponent {
       let seg2Seg: any = document.getElementById('seg_seg2' + index);
       valores['seg2Seg'] = seg2Seg.value;
       this.ajusteArray.push(valores);
+      //Tema
+      let temaMin: any = document.getElementById('min_tema' + index);
+      valores['temaMin'] = temaMin.value;
+      let temaSeg: any = document.getElementById('seg_tema' + index);
+      valores['temaSeg'] = temaSeg.value;
+      this.ajusteArray.push(valores);
+      //Discusion
+      let disMin: any = document.getElementById('min_dis' + index);
+      valores['disMin'] = disMin.value;
+      let disSeg: any = document.getElementById('seg_dis' + index);
+      valores['disSeg'] = disSeg.value;
+      this.ajusteArray.push(valores);
     }
     this.banderaAjusteTiempo = !this.validarAjusteTiempo();
     if (!this.banderaAjusteTiempo) {
@@ -705,7 +790,7 @@ export class AppComponent {
           this.formatTwoDigits(this.ajusteArray[index].seg1Seg)
         );
       }
-      // Segemnto 2
+      // Segemento 2
       if (this.ajusteArray[index].seg2Min != '') {
         this.candidatosArray[index].tiempo_segmento2.min = Number(
           this.formatTwoDigits(this.ajusteArray[index].seg2Min)
@@ -716,6 +801,30 @@ export class AppComponent {
           this.formatTwoDigits(this.ajusteArray[index].seg2Seg)
         );
       }
+      // Tema
+      if (this.ajusteArray[index].temaMin != '') {
+        this.candidatosArray[index].tiempo_tema.min = Number(
+          this.formatTwoDigits(this.ajusteArray[index].temaMin)
+        );
+      }
+      if (this.ajusteArray[index].temaSeg != '') {
+        this.candidatosArray[index].tiempo_tema.seg = Number(
+          this.formatTwoDigits(this.ajusteArray[index].temaSeg)
+        );
+      }
+      //Discusion
+      if (this.ajusteArray[index].disMin != '') {
+        this.candidatosArray[index].tiempo_dis.min = Number(
+          this.formatTwoDigits(this.ajusteArray[index].disMin)
+        );
+      }
+      if (this.ajusteArray[index].temaSeg != '') {
+        this.candidatosArray[index].tiempo_dis.seg = Number(
+          this.formatTwoDigits(this.ajusteArray[index].disSeg)
+        );
+      }
+
+
     }
     this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
   }
@@ -742,6 +851,7 @@ export class AppComponent {
       this.confInicial = new ConfInicial();
       this.banderaPreparados = false;
       this.banderaResumen = true;
+      this.banderaTema=true;
       this.numeroBloque = 1;
       this.estado = new Array<Estado>();
       this.iniciarSeleccionado();
@@ -806,58 +916,58 @@ export class AppComponent {
       return false;
     }
     //Tiempo Bolsa
-    else if (controls.min_bolsa.value == undefined) {
-      this.msgAlert =
-        'El campo minutos del tiempo de bolsa no debe de ir vacío';
-      return false;
-    } else if (
-      !(controls.min_bolsa.value > -1 && controls.min_bolsa.value < 60)
-    ) {
-      this.msgAlert =
-        'Los minutos del tiempo de bolsa deben entrar en el rango 0 - 59';
-      return false;
-    } else if (controls.seg_bolsa.value == undefined) {
-      this.msgAlert =
-        'El campo segundos del tiempo de bolsa no debe de ir vacío';
-      return false;
-    } else if (
-      !(controls.seg_bolsa.value > -1 && controls.seg_bolsa.value < 60)
-    ) {
-      this.msgAlert =
-        'Los segundos del tiempo de bolsa deben entrar en el rango 0 - 59';
-      return false;
-    } else if (controls.min_bolsa.value == 0 && controls.seg_bolsa.value == 0) {
-      this.msgAlert = 'El tiempo de bolsa debe tener al menos 1 segundo';
-      return false;
-    }
+    // else if (controls.min_bolsa.value == undefined) {
+    //   this.msgAlert =
+    //     'El campo minutos del tiempo de bolsa no debe de ir vacío';
+    //   return false;
+    // } else if (
+    //   !(controls.min_bolsa.value > -1 && controls.min_bolsa.value < 60)
+    // ) {
+    //   this.msgAlert =
+    //     'Los minutos del tiempo de bolsa deben entrar en el rango 0 - 59';
+    //   return false;
+    // } else if (controls.seg_bolsa.value == undefined) {
+    //   this.msgAlert =
+    //     'El campo segundos del tiempo de bolsa no debe de ir vacío';
+    //   return false;
+    // } else if (
+    //   !(controls.seg_bolsa.value > -1 && controls.seg_bolsa.value < 60)
+    // ) {
+    //   this.msgAlert =
+    //     'Los segundos del tiempo de bolsa deben entrar en el rango 0 - 59';
+    //   return false;
+    // } else if (controls.min_bolsa.value == 0 && controls.seg_bolsa.value == 0) {
+    //   this.msgAlert = 'El tiempo de bolsa debe tener al menos 1 segundo';
+    //   return false;
+    // }
     //Tiempo Segmentos
-    else if (controls.min_segmentos.value == undefined) {
-      this.msgAlert =
-        'El campo minutos del tiempo de segmentos no debe de ir vacío';
-      return false;
-    } else if (
-      !(controls.min_segmentos.value > -1 && controls.min_segmentos.value < 60)
-    ) {
-      this.msgAlert =
-        'Los minutos del tiempo segmentos deben entrar en el rango 0 - 59';
-      return false;
-    } else if (controls.seg_segmentos.value == undefined) {
-      this.msgAlert =
-        'El campo segundos del tiempo de segmentos no debe de ir vacío';
-      return false;
-    } else if (
-      !(controls.seg_segmentos.value > -1 && controls.seg_segmentos.value < 60)
-    ) {
-      this.msgAlert =
-        'Los segundos del tiempo segmentos deben entrar en el rango 0 - 59';
-      return false;
-    } else if (
-      controls.min_segmentos.value == 0 &&
-      controls.seg_segmentos.value == 0
-    ) {
-      this.msgAlert = 'El tiempo segmentos debe tener al menos 1 segundo';
-      return false;
-    }
+    // else if (controls.min_segmentos.value == undefined) {
+    //   this.msgAlert =
+    //     'El campo minutos del tiempo de segmentos no debe de ir vacío';
+    //   return false;
+    // } else if (
+    //   !(controls.min_segmentos.value > -1 && controls.min_segmentos.value < 60)
+    // ) {
+    //   this.msgAlert =
+    //     'Los minutos del tiempo segmentos deben entrar en el rango 0 - 59';
+    //   return false;
+    // } else if (controls.seg_segmentos.value == undefined) {
+    //   this.msgAlert =
+    //     'El campo segundos del tiempo de segmentos no debe de ir vacío';
+    //   return false;
+    // } else if (
+    //   !(controls.seg_segmentos.value > -1 && controls.seg_segmentos.value < 60)
+    // ) {
+    //   this.msgAlert =
+    //     'Los segundos del tiempo segmentos deben entrar en el rango 0 - 59';
+    //   return false;
+    // } else if (
+    //   controls.min_segmentos.value == 0 &&
+    //   controls.seg_segmentos.value == 0
+    // ) {
+    //   this.msgAlert = 'El tiempo segmentos debe tener al menos 1 segundo';
+    //   return false;
+    // }
 
     return true;
   }
@@ -943,6 +1053,38 @@ export class AppComponent {
             this.candidatosArray[index].nombre;
           return false;
         }
+      // Tema
+      if (iterator.temaSeg != '') {
+        if (!(iterator.temaSeg > -1 && iterator.temaSeg < 60)) {
+          this.msgAlert =
+            'Por favor verifique el campo de segundos Segmento 2 del candidato: ' +
+            this.candidatosArray[index].nombre;
+          return false;
+        }
+      }
+      if (iterator.temaMin != '' && iterator.temaSeg != '')
+        if (iterator.temaMin == 0 && iterator.temaSeg == 0) {
+          this.msgAlert =
+            'El tiempo de Segmento 2 debe de tener al menos 1 seg del candidato: ' +
+            this.candidatosArray[index].nombre;
+          return false;
+        }
+        //Discusion
+        if (iterator.disSeg != '') {
+          if (!(iterator.disSeg > -1 && iterator.disSeg < 60)) {
+            this.msgAlert =
+              'Por favor verifique el campo de segundos Segmento 2 del candidato: ' +
+              this.candidatosArray[index].nombre;
+            return false;
+          }
+        }
+        if (iterator.disMin != '' && iterator.disSeg != '')
+          if (iterator.disMin == 0 && iterator.disSeg == 0) {
+            this.msgAlert =
+              'El tiempo de Segmento 2 debe de tener al menos 1 seg del candidato: ' +
+              this.candidatosArray[index].nombre;
+            return false;
+          }
       index++;
     }
     return true;

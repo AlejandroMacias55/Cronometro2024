@@ -1,17 +1,7 @@
-<!-- Nombre del candidato -->
-
-<ng-container *ngIf="banderaTransmitir">
-  <div
-    class="text-center w-100"
-    style="position: absolute; top: 0; font-size: 3rem; color: black"
-  >
-    {{ candidatoSeleccionado.nombre }}
-  </div>
-</ng-container>
 <!-- Parte del cronómetro -->
 <div class="cronometro">
   <ng-container *ngIf="banderaTransmitir">
-    <div style="width: 30%; height: 20vh" class="d-flex justify-content-center">
+    <div style="width: 30%; height: 20vh" class="d-flex flex-column align-items-center">
       <ng-container *ngIf="candidatoSeleccionado.id_logo != 0">
         <img
           [src]="
@@ -21,12 +11,22 @@
             )
           "
           class="center"
+          style="max-width: 100%; max-height: 100%; "
         />
       </ng-container>
+      <!-- Nombre del candidato -->
+      <div
+        class="text-center"
+        style="font-size: 2rem; color: black; margin-bottom: -20px;"
+        >
+        {{ candidatoSeleccionado.nombre }}
+      </div>
+      
     </div>
+    
     <div
       class="d-flex justify-content-center"
-      style="width: 45%; position: relative"
+      style="width: 45%;position: relative"
     >
       <div
         class="sizeCronometro"
@@ -41,6 +41,7 @@
         {{ formatTwoDigits(candidatoSeleccionado.tiempo.min) }} :
         {{ formatTwoDigits(candidatoSeleccionado.tiempo.seg) }}
       </div>
+      
     </div>
     <div style="width: 25%; color: black">
       <div style="font-size: 3rem; color: black">
@@ -56,6 +57,7 @@
         style="height: 33vh; margin: auto"
       />
     </div>
+    
   </ng-container>
 </div>
 <!-- Configuración Inicial -->
@@ -121,7 +123,7 @@
         </div>
       </div>
       <!--  -->
-      <div class="mr-4">
+      <!-- <div class="mr-4">
         <h6 class="text-center">Tiempo Bolsa</h6>
         <div class="d-flex">
           <div class="form-group mr-3">
@@ -155,9 +157,9 @@
             />
           </div>
         </div>
-      </div>
+      </div> -->
       <!--  -->
-      <div>
+      <!-- <div>
         <h6 class="text-center">Tiempo Segmentos</h6>
         <div class="d-flex">
           <div class="form-group mr-3">
@@ -191,7 +193,7 @@
             />
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- <div class="">      -->
       <button
         type="button"
@@ -226,7 +228,7 @@
     <button
       type="button"
       [disabled]="banderaEditarCandidatos"
-      class="btn btn-warning pl-5 pr-5 pt-2 pb-2 mr-4"
+      class="btn btn-warning pl-5 pr-5 pt-2 pb-2 mr-2"
       (click)="dejarTransmitir(); detenerTiempo()"
     >
       Detener
@@ -235,40 +237,61 @@
       type="button"
       class="flex btn btn-primary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      *ngIf="banderaResumen && !banderaCierre"
+      *ngIf="banderaResumen && !banderaCierre && banderaTema"
       (click)="banderaResumen = !banderaResumen"
     >
-      Segmentos de Discusión
+      Preguntas y Respuestas
     </button>
+    <!-- Temas-->
+     <button
+      type="button"
+      class="flex btn btn-success pl-4 pr-4 pt-2 ml-2 mr-2"
+      style="background-color: rgb(255, 104, 3)"
+      [disabled]="banderaTransmitir || banderaEditarCandidatos"
+      *ngIf="banderaTema && !banderaCierre && banderaResumen"
+      (click)="banderaTema = !banderaTema"
+    >
+      Temas
+    </button>
+  <!-- /temas-->
     <button
       type="button"
-      class="flex btn btn-primary ml-2 mr-2"
+      class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
       *ngIf="!banderaResumen"
       (click)="banderaResumen = !banderaResumen"
     >
-      Resumen
+      Volver
     </button>
     <button
       type="button"
-      class="flex btn btn-success ml-2 mr-2"
+      class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
+      *ngIf="!banderaTema"
+      (click)="banderaTema = !banderaTema"
+    >
+      Volver
+    </button>
+    <button
+      type="button"
+      class="flex btn btn-success pl-2 pr-2 pt-2 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
       (click)="llenarCandidatos(true)"
     >
       Siguiente Bloque
     </button>
-    <button
+    <!-- <button
       type="button"
-      class="flex btn btn-success ml-2 mr-2"
+      class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       style="background-color: rgb(18, 95, 69)"
       [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
       (click)="openDialogCierre()"
     >
       Cierre del debate
-    </button>
+    </button> -->
     <button
     type="button"
-    class="flex btn btn-success ml-2 mr-2"
+    class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
     style="background-color: rgb(18, 93, 95)"
     [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
     (click)="banderaEditarCandidatos = true"
@@ -277,7 +300,7 @@
   </button>
     <button
       type="button"
-      class="flex btn btn-danger ml-2 mr-2"
+      class="flex btn btn-danger pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaEditarCandidatos"
       (click)="openDialogConfirm('Está seguro de reiniciar la configuración')"
     >
@@ -285,7 +308,7 @@
     </button>
     <button
       type="button"
-      class="flex btn btn-secondary ml-2 mr-2"
+      class="flex btn btn-secondary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaEditarCandidatos"
       (click)="openDialogContrasena()"
     >
@@ -293,7 +316,7 @@
     </button>
     <button
       type="button"
-      class="flex btn btn-dark ml-2 mr-2"
+      class="flex btn btn-dark pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaEditarCandidatos"
       (click)="
         openDialogConfirm(
@@ -307,7 +330,7 @@
   <div *ngIf="banderaEditarCandidatos" class="d-flex justify-content-center mt-3">
     <button
     type="button"
-    class="flex btn btn-success ml-2 mr-2"    
+    class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"    
     (click)="guardarCandidatos(FormCandidatos.valid, true)"
   >
     Guardar
@@ -315,10 +338,11 @@
   </div>
   <hr />
 </ng-container>
+
 <form #FormCandidatos="ngForm" novalidate>
   <div class="row p-3">
     <div
-      class="col-md-4 p-3 d-flex"
+      class="col-md-6 p-3 d-flex"
       *ngFor="let item of candidatosArray; let index = index"
     >
       <ng-container *ngIf="item.id_logo != 0">
@@ -350,7 +374,10 @@
           required
         />
       </div>
-      <ng-container *ngIf="banderaPreparados && banderaResumen">
+
+<!-- Tiempos -->
+
+      <ng-container *ngIf="banderaPreparados && banderaResumen && banderaTema">
         <!-- Tiempo Exposición -->
         <div class="justify-content-center flex align-items-center text-center d-flex mr-2">
           <div
@@ -376,8 +403,9 @@
         </div>
        
       </ng-container>
+<!-- pregunta -->
       <div
-        *ngIf="banderaPreparados && !banderaResumen"
+        *ngIf="banderaPreparados && !banderaResumen && banderaTema "
         class="text-center d-flex"
       >
         <div
@@ -385,7 +413,7 @@
           class="mr-3"
           [class.terminado]="item.tiempo_segmento1.terminado"
         >
-          <div>Seg 1</div>
+          <div style="font-size: 12px;">Pregunta</div>
           <div style="font-weight: 500">
             {{ formatTwoDigits(item.tiempo_segmento1.min) }}:{{
               formatTwoDigits(item.tiempo_segmento1.seg)
@@ -397,13 +425,14 @@
           type="button"
           class="btn btn-info"
           [disabled]="banderaTransmitir || banderaEditarCandidatos"
-          (click)="iniciarTiempo(index, 'PRIMER SEGMENTO')"
+          (click)="iniciarTiempo(index, 'PREGUNTA')"
         >
           Iniciar
         </button>
       </div>
+      <!-- Respuesta -->
       <div
-        *ngIf="banderaPreparados && !banderaResumen"
+        *ngIf="banderaPreparados && !banderaResumen && banderaTema"
         class="text-center d-flex"
       >
         <div
@@ -411,8 +440,8 @@
           class="ml-3 mr-3"
           [class.terminado]="item.tiempo_segmento2.terminado"
         >
-          <div>Seg 2</div>
-          <div style="font-weight: 500">
+          <div style="font-size: 12px;">Respuesta</div>
+          <div style="font-weight: 500 ">
             {{ formatTwoDigits(item.tiempo_segmento2.min) }}:{{
               formatTwoDigits(item.tiempo_segmento2.seg)
             }}
@@ -423,11 +452,68 @@
           type="button"
           class="btn btn-primary"
           [disabled]="banderaTransmitir || banderaEditarCandidatos"
-          (click)="iniciarTiempo(index, 'SEGUNDO SEGMENTO')"
+          (click)="iniciarTiempo(index, 'RESPUESTA')"
         >
           Iniciar
         </button>
       </div>
+
+      <!-- Tema -->
+      <div
+      *ngIf="banderaPreparados && !banderaTema"
+      class="text-center d-flex"
+    >
+      <div
+        id="tiempo_tema{{ index }}"
+        class="ml-3 mr-3"
+        [class.terminado]="item.tiempo_tema.terminado"
+      >
+        <div style="font-size: 12px;">Tema</div>
+        <div style="font-weight: 500 ">
+          {{ formatTwoDigits(item.tiempo_tema.min) }}:{{
+            formatTwoDigits(item.tiempo_tema.seg)
+          }}
+        </div>
+      </div>
+      <button
+        id="tiempo_tema_button{{ index }}"
+        type="button"
+        class="btn btn-primary"
+        [disabled]="banderaTransmitir || banderaEditarCandidatos"
+        (click)="iniciarTiempo(index, 'TEMA')"
+      >
+        Iniciar
+      </button>
+    </div>
+    <!-- Segmento de discucion -->
+    <div
+      *ngIf="banderaPreparados && !banderaTema"
+      class="text-center d-flex"
+    >
+      <div
+        id="tiempo_dis{{ index }}"
+        class="ml-3 mr-3"
+        [class.terminado]="item.tiempo_dis.terminado"
+      >
+        <div style="font-size: 12px;">Discusion</div>
+        <div style="font-weight: 500 ">
+          {{ formatTwoDigits(item.tiempo_dis.min) }}:{{
+            formatTwoDigits(item.tiempo_dis.seg)
+          }}
+        </div>
+      </div>
+      <button
+        id="tiempo_dis_button{{ index }}"
+        type="button"
+        class="btn btn-primary"
+        [disabled]="banderaTransmitir || banderaEditarCandidatos"
+        (click)="iniciarTiempo(index, 'DISCUSION')"
+      >
+        Iniciar
+      </button>
+    </div>
+      
+
       <ng-container *ngIf="!banderaPreparados">
         <button
           *ngIf="item.id_logo == 0"
@@ -440,7 +526,7 @@
         <button
           *ngIf="item.id_logo == 0"
           type="button"
-          class="btn btn-info mr-2"
+          class="btn btn-info ml-2"
           (click)="openDialog(false, index)"
         >
           Coalición
@@ -572,7 +658,7 @@
 
         <!--  -->
         <div class="mr-4">
-          <h5 class="text-center">Tiempo Segmento 1</h5>
+          <h5 class="text-center">Tiempo Pregunta</h5>
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
@@ -603,8 +689,8 @@
           </div>
         </div>
         <!--  -->
-        <div>
-          <h5 class="text-center">Tiempo Segmento 2</h5>
+        <div class="mr-4">
+          <h5 class="text-center">Respuesta</h5>
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
@@ -627,6 +713,70 @@
                 style="text-align: right"
                 class="form-control"
                 name="seg_segmentos"
+                placeholder="00"
+                min="0"
+                max="60"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- tema -->
+        <div class="mr-4">
+          <h5 class="text-center">Tema </h5>
+          <div class="d-flex">
+            <div class="form-group mr-3">
+              <label for="exampleFormControlInput1">Minutos*</label>
+              <input
+                id="min_tema{{ index }}"
+                type="number"
+                style="text-align: right"
+                class="form-control"
+                name="min_tema"
+                placeholder="00"
+                min="0"
+                max="60"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Segundos*</label>
+              <input
+                id="seg_tema{{ index }}"
+                type="number"
+                style="text-align: right"
+                class="form-control"
+                name="seg_tema"
+                placeholder="00"
+                min="0"
+                max="60"
+              />
+            </div>
+          </div>
+        </div>
+        <!-- discusion -->
+        <div class="mr-4">
+          <h5 class="text-center">Discusión</h5>
+          <div class="d-flex">
+            <div class="form-group mr-3">
+              <label for="exampleFormControlInput1">Minutos*</label>
+              <input
+                id="min_dis{{ index }}"
+                type="number"
+                style="text-align: right"
+                class="form-control"
+                name="min_dis"
+                placeholder="00"
+                min="0"
+                max="60"
+              />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Segundos*</label>
+              <input
+                id="seg_dis{{ index }}"
+                type="number"
+                style="text-align: right"
+                class="form-control"
+                name="seg_dis"
                 placeholder="00"
                 min="0"
                 max="60"
@@ -804,7 +954,7 @@
               }}
             </div>
             <br />
-            <b>Tiempo Segmento 1: &nbsp;</b>
+            <b>Tiempo Pregunta: &nbsp;</b>
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_segmento1.min) }}:{{
@@ -812,11 +962,27 @@
               }}
             </div>
             <br />
-            <b>Tiempo Segmento 2: &nbsp;</b>
+            <b>Tiempo Respuesta: &nbsp;</b>
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_segmento2.min) }}:{{
                 formatTwoDigits(item2.tiempo_segmento2.seg)
+              }}
+            </div>
+            <br />
+            <b>Tiempo Tema: &nbsp;</b>
+            <div>
+              &nbsp;
+              {{ formatTwoDigits(item2.tiempo_tema.min) }}:{{
+                formatTwoDigits(item2.tiempo_tema.seg)
+              }}
+            </div>
+            <br />
+            <b>Tiempo Discusión: &nbsp;</b>
+            <div>
+              &nbsp;
+              {{ formatTwoDigits(item2.tiempo_dis.min) }}:{{
+                formatTwoDigits(item2.tiempo_dis.seg)
               }}
             </div>
             <br />

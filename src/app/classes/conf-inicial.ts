@@ -6,4 +6,10 @@ export class ConfInicial {
   tiempo_bolsa_seg:          number;
   tiempo_segmento_seg:      number;
   tiempo_segmento_min:      number;
+  tiempo_pregunta_min: number;
+  tiempo_pregunta_seg: number;
+  tiempo_respuesta_min: number;
+  tiempo_respuesta_seg: number;
+
+
 }

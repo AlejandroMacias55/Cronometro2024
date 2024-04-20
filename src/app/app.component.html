@@ -3,45 +3,32 @@
   <ng-container *ngIf="banderaTransmitir">
     <div style="width: 30%; height: 20vh" class="d-flex flex-column align-items-center">
       <ng-container *ngIf="candidatoSeleccionado.id_logo != 0">
-        <img
-          [src]="
+        <img [src]="
             logos.getFuente(
               candidatoSeleccionado.id_logo,
               candidatoSeleccionado.id_clase
             )
-          "
-          class="center"
-          style="max-width: 100%; max-height: 100%; "
-        />
+          " class="center" style="max-width: 100%; max-height: 100%; " />
       </ng-container>
       <!-- Nombre del candidato -->
-      <div
-        class="text-center"
-        style="font-size: 2rem; color: black; margin-bottom: -20px;"
-        >
+      <div class="text-center" style="font-size: 2rem; color: black; margin-bottom: -20px;">
         {{ candidatoSeleccionado.nombre }}
       </div>
-      
+
     </div>
-    
-    <div
-      class="d-flex justify-content-center"
-      style="width: 45%;position: relative"
-    >
-      <div
-        class="sizeCronometro"
-        [ngClass]="{
+
+    <div class="d-flex justify-content-center" style="width: 45%;position: relative">
+      <div class="sizeCronometro" [ngClass]="{
           colorWarning:
             candidatoSeleccionado.tiempo.min == 0 &&
             candidatoSeleccionado.tiempo.seg < 11 &&
             candidatoSeleccionado.id_logo != 0,
           terminado: candidatoSeleccionado.tiempo.terminado
-        }"
-      >
+        }">
         {{ formatTwoDigits(candidatoSeleccionado.tiempo.min) }} :
         {{ formatTwoDigits(candidatoSeleccionado.tiempo.seg) }}
       </div>
-      
+
     </div>
     <div style="width: 25%; color: black">
       <div style="font-size: 3rem; color: black">
@@ -51,22 +38,14 @@
   </ng-container>
   <ng-container *ngIf="!banderaTransmitir">
     <div class="d-flex justify-content-center w-100">
-      <img
-        src="./assets/logos/logoieez.png"
-        alt=""
-        style="height: 33vh; margin: auto"
-      />
+      <img src="./assets/logos/logoieez.png" alt="" style="height: 33vh; margin: auto" />
     </div>
-    
+
   </ng-container>
 </div>
 <!-- Configuración Inicial -->
 
-<div
-  class="alert alert-info text-center"
-  role="alert"
-  style="font-size: 1.5rem"
->
+<div class="alert alert-info text-center" role="alert" style="font-size: 1.5rem">
   {{ tipoTiempo }}
 </div>
 <ng-container *ngIf="tipoTiempo == 'Configuración Inicial'">
@@ -74,149 +53,108 @@
     <div class="d-flex align-items-end justify-content-center pl-3">
       <div class="form-group mr-4">
         <label for="exampleFormControlInput1">Candidatos*</label>
-        <input
-          [(ngModel)]="confInicial.candidatos"
-          name="candidatos"
-          type="number"
-          class="form-control"
-          placeholder="16Max"
-          #candidato="ngModel"
-          min="0"
-          max="16"
-          required
-        />
+        <input [(ngModel)]="confInicial.candidatos" name="candidatos" type="number" class="form-control"
+          placeholder="16Max" #candidato="ngModel" min="0" max="16" required />
       </div>
-      <!--  -->
+      <!-- TIEMPO MENSAJES -->
       <div class="mr-4">
-        <h6 class="text-center">Tiempo Exposición</h6>
+        <h6 class="text-center">Tiempo Mensajes</h6>
         <div class="d-flex">
           <div class="form-group mr-3">
             <label for="exampleFormControlInput1">Minutos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_exposicion_min"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="min_exposicion"
-              placeholder="00"
-              min="0"
-              max="60"
-              #res_min="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_exposicion_min" type="number" style="text-align: right"
+              class="form-control" name="min_exposicion" placeholder="00" min="0" max="60" #res_min="ngModel"
+              required />
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Segundos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_exposicion_seg"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="seg_exposicion"
-              placeholder="00"
-              min="0"
-              max="60"
-              #res_seg="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_exposicion_seg" type="number" style="text-align: right"
+              class="form-control" name="seg_exposicion" placeholder="00" min="0" max="60" #res_seg="ngModel"
+              required />
           </div>
         </div>
       </div>
-      <!--  -->
-      <!-- <div class="mr-4">
-        <h6 class="text-center">Tiempo Bolsa</h6>
+      <!-- TIEMPO TEMA -->
+      <div class="mr-4">
+        <h6 class="text-center">Tiempo Tema</h6>
         <div class="d-flex">
           <div class="form-group mr-3">
             <label for="exampleFormControlInput1">Minutos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_bolsa_min"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="min_bolsa"
-              placeholder="00"
-              min="0"
-              max="60"
-              #res_min="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_bolsa_min" type="number" style="text-align: right"
+              class="form-control" name="min_bolsa" placeholder="00" min="0" max="60" #res_min="ngModel" required />
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Segundos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_bolsa_seg"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="seg_bolsa"
-              placeholder="00"
-              min="0"
-              max="60"
-              #res_seg="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_bolsa_seg" type="number" style="text-align: right"
+              class="form-control" name="seg_bolsa" placeholder="00" min="0" max="60" #res_seg="ngModel" required />
           </div>
         </div>
-      </div> -->
-      <!--  -->
-      <!-- <div>
-        <h6 class="text-center">Tiempo Segmentos</h6>
+      </div>
+      <!-- tiempo discusion  -->
+      <div>
+        <h6 class="text-center">Tiempo Discusión</h6>
         <div class="d-flex">
           <div class="form-group mr-3">
             <label for="exampleFormControlInput1">Minutos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_segmento_min"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="min_segmentos"
-              placeholder="00"
-              min="0"
-              max="60"
-              #pre_min="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_segmento_min" type="number" style="text-align: right"
+              class="form-control" name="min_segmentos" placeholder="00" min="0" max="60" #pre_min="ngModel" required />
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Segundos*</label>
-            <input
-              [(ngModel)]="confInicial.tiempo_segmento_seg"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="seg_segmentos"
-              placeholder="00"
-              min="0"
-              max="60"
-              #pre_seg="ngModel"
-              required
-            />
+            <input [(ngModel)]="confInicial.tiempo_segmento_seg" type="number" style="text-align: right"
+              class="form-control" name="seg_segmentos" placeholder="00" min="0" max="60" #pre_seg="ngModel" required />
           </div>
         </div>
-      </div> -->
+      </div>
+
+
       <!-- <div class="">      -->
-      <button
-        type="button"
-        class="btn btn-success mb-3 ml-3"
-        (click)="guardarConfInicial(FormInicial)"
-      >
+      <button type="button" class="btn btn-success mb-3 ml-3" (click)="guardarConfInicial(FormInicial)">
         Guardar
       </button>
       <!-- </div>  -->
     </div>
-    <div
-      *ngIf="bandera_guardar"
-      class="alert alert-warning alert-dismissible fade show"
-      role="alert"
-    >
+
+    <div class="d-flex align-items-end justify-content-center pl-3">
+      <!-- PREGUNTA -->
+      <div class="mr-4" style="margin-bottom: 20px;">
+        <h6 class="text-center">Tiempo Pregunta</h6>
+        <div class="d-flex">
+          <div class="form-group mr-3">
+            <label for="exampleFormControlInput1">Minutos*</label>
+            <input [(ngModel)]="confInicial.tiempo_pregunta_min" type="number" style="text-align: right"
+              class="form-control" name="min_pregunta" placeholder="00" min="0" max="60" #pre_min="ngModel" required />
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Segundos*</label>
+            <input [(ngModel)]="confInicial.tiempo_pregunta_seg" type="number" style="text-align: right"
+              class="form-control" name="seg_pregunta" placeholder="00" min="0" max="60" #pre_seg="ngModel" required />
+          </div>
+        </div>
+      </div>
+      <!-- RESPUESTA -->
+      <div class="mr-4" style="margin-bottom: 20px;">
+        <h6 class="text-center">Tiempo Respuesta</h6>
+        <div class="d-flex">
+          <div class="form-group mr-3">
+            <label for="exampleFormControlInput1">Minutos*</label>
+            <input [(ngModel)]="confInicial.tiempo_respuesta_min" type="number" style="text-align: right"
+              class="form-control" name="min_respuesta" placeholder="00" min="0" max="60" #pre_min="ngModel" required />
+          </div>
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Segundos*</label>
+            <input [(ngModel)]="confInicial.tiempo_respuesta_seg" type="number" style="text-align: right"
+              class="form-control" name="seg_respuesta" placeholder="00" min="0" max="60" #pre_seg="ngModel" required />
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+    <div *ngIf="bandera_guardar" class="alert alert-warning alert-dismissible fade show" role="alert">
       <div class="text-center"><b>¡Atención!</b> {{ msgAlert }}.</div>
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-        (click)="bandera_guardar = false"
-      >
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="bandera_guardar = false">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -225,59 +163,34 @@
 <!-- Lista de los Candidatos -->
 <ng-container *ngIf="banderaPreparados">
   <div class="d-flex justify-content-center mx-3 my-3">
-    <button
-      type="button"
-      [disabled]="banderaEditarCandidatos"
-      class="btn btn-warning pl-5 pr-5 pt-2 pb-2 mr-2"
-      (click)="dejarTransmitir(); detenerTiempo()"
-    >
+    <button type="button" [disabled]="banderaEditarCandidatos || !banderaTransmitir  "
+      class="btn btn-warning pl-5 pr-5 pt-2 pb-2 mr-2" (click)="dejarTransmitir(); detenerTiempo()">
       Detener
     </button>
-    <button
-      type="button"
-      class="flex btn btn-primary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      *ngIf="banderaResumen && !banderaCierre && banderaTema"
-      (click)="banderaResumen = !banderaResumen"
-    >
+    <button type="button" class="flex btn btn-primary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaEditarCandidatos" *ngIf="banderaResumen && !banderaCierre && banderaTema"
+      (click)="banderaResumen = !banderaResumen ">
       Preguntas y Respuestas
     </button>
     <!-- Temas-->
-     <button
-      type="button"
-      class="flex btn btn-success pl-4 pr-4 pt-2 ml-2 mr-2"
-      style="background-color: rgb(255, 104, 3)"
-      [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      *ngIf="banderaTema && !banderaCierre && banderaResumen"
-      (click)="banderaTema = !banderaTema"
-    >
+    <button type="button" class="flex btn btn-success pl-4 pr-4 pt-2 ml-2 mr-2"
+      style="background-color: rgb(255, 104, 3)" [disabled]="banderaTransmitir || banderaEditarCandidatos"
+      *ngIf="banderaTema && !banderaCierre && banderaResumen" (click)="banderaTema = !banderaTema">
       Temas
     </button>
-  <!-- /temas-->
-    <button
-      type="button"
-      class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
-      *ngIf="!banderaResumen"
-      (click)="banderaResumen = !banderaResumen"
-    >
+    <!-- /temas-->
+    <button type="button" class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos" *ngIf="!banderaResumen"
+      (click)="banderaResumen = !banderaResumen">
       Volver
     </button>
-    <button
-      type="button"
-      class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
-      *ngIf="!banderaTema"
-      (click)="banderaTema = !banderaTema"
-    >
+    <button type="button" class="flex btn btn-primary pl-4 pr-4 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos" *ngIf="!banderaTema"
+      (click)="banderaTema = !banderaTema">
       Volver
     </button>
-    <button
-      type="button"
-      class="flex btn btn-success pl-2 pr-2 pt-2 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
-      (click)="llenarCandidatos(true)"
-    >
+    <button type="button" class="flex btn btn-success pl-2 pr-2 pt-2 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos" (click)="llenarCandidatos(true)">
       Siguiente Bloque
     </button>
     <!-- <button
@@ -289,271 +202,162 @@
     >
       Cierre del debate
     </button> -->
-    <button
-    type="button"
-    class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
-    style="background-color: rgb(18, 93, 95)"
-    [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
-    (click)="banderaEditarCandidatos = true"
-  >
-    Editar Candidatos
-  </button>
-    <button
-      type="button"
-      class="flex btn btn-danger pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+    <button type="button" class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+      style="background-color: rgb(18, 93, 95)"
+      [disabled]="banderaTransmitir || banderaCierre || banderaEditarCandidatos"
+      (click)="banderaEditarCandidatos = true">
+      Editar Candidatos
+    </button>
+    <button type="button" class="flex btn btn-danger pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
       [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      (click)="openDialogConfirm('Está seguro de reiniciar la configuración')"
-    >
+      (click)="openDialogConfirm('Está seguro de reiniciar la configuración')">
       Reiniciar
     </button>
-    <button
-      type="button"
-      class="flex btn btn-secondary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      (click)="openDialogContrasena()"
-    >
+    <button type="button" class="flex btn btn-secondary pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="openDialogContrasena()">
       Reajustar Tiempos
     </button>
-    <button
-      type="button"
-      class="flex btn btn-dark pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
-      [disabled]="banderaTransmitir || banderaEditarCandidatos"
-      (click)="
+    <button type="button" class="flex btn btn-dark pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+      [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="
         openDialogConfirm(
           'Está seguro de finalizar el cronómetro. Todos los valores se reiniciarán'
         )
-      "
-    >
+      ">
       Finalizar
     </button>
   </div>
   <div *ngIf="banderaEditarCandidatos" class="d-flex justify-content-center mt-3">
-    <button
-    type="button"
-    class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"    
-    (click)="guardarCandidatos(FormCandidatos.valid, true)"
-  >
-    Guardar
-  </button>
+    <button type="button" class="flex btn btn-success pl-2 pr-2 pt-4 pb-4 ml-2 mr-2"
+      (click)="guardarCandidatos(FormCandidatos.valid, true)">
+      Guardar
+    </button>
   </div>
   <hr />
 </ng-container>
 
 <form #FormCandidatos="ngForm" novalidate>
   <div class="row p-3">
-    <div
-      class="col-md-6 p-3 d-flex"
-      *ngFor="let item of candidatosArray; let index = index"
-    >
+    <div class="col-md-6 p-3 d-flex" *ngFor="let item of candidatosArray; let index = index">
       <ng-container *ngIf="item.id_logo != 0">
-        <div
-          style="
+        <div style="
             min-width: 100px;
             max-width: 100px;
             display: flex;
             justify-content: center;
-          "
-        >
-          <img
-            [src]="logos.getFuente(item.id_logo, item.id_clase)"
-            height="40px"
-            style="margin-right: 10px; max-width: 100px"
-          />
+          ">
+          <img [src]="logos.getFuente(item.id_logo, item.id_clase)" height="40px"
+            style="margin-right: 10px; max-width: 100px" />
         </div>
       </ng-container>
 
       <div class="form-group mr-3">
-        <input
-          [(ngModel)]="item.nombre"
-          type="textd"
-          class="form-control"
-          name="NomCand_{{ index }}"
-          placeholder="Nombre Candidato {{ index + 1 }}"
-          #NomCam_n="ngModel"
-          [disabled]="banderaPreparados && !banderaEditarCandidatos"
-          required
-        />
+        <input [(ngModel)]="item.nombre" type="textd" class="form-control" name="NomCand_{{ index }}"
+          placeholder="Nombre Candidato {{ index + 1 }}" #NomCam_n="ngModel"
+          [disabled]="banderaPreparados && !banderaEditarCandidatos" required />
       </div>
 
-<!-- Tiempos -->
+      <!-- Tiempos -->
 
       <ng-container *ngIf="banderaPreparados && banderaResumen && banderaTema">
         <!-- Tiempo Exposición -->
         <div class="justify-content-center flex align-items-center text-center d-flex mr-2">
-          <div
-            id="tiempo_exposicion{{ index }}"
-            [class.terminado]="item.tiempo_exposicion.terminado"
-          >
+          <div id="tiempo_exposicion{{ index }}" [class.terminado]="item.tiempo_exposicion.terminado">
             <div>Exposición</div>
             <div style="font-weight: 500">
               {{ formatTwoDigits(item.tiempo_exposicion.min) }}:{{
-                formatTwoDigits(item.tiempo_exposicion.seg)
+              formatTwoDigits(item.tiempo_exposicion.seg)
               }}
             </div>
           </div>
-          <button
-            id="tiempo_exposicion_button{{ index }}"
-            type="button"
-            class="btn btn-info ml-2"
-            [disabled]="banderaTransmitir || banderaEditarCandidatos"
-            (click)="iniciarTiempo(index, 'EXPONIENDO')"
-          >
+          <button id="tiempo_exposicion_button{{ index }}" type="button" class="btn btn-info ml-2"
+            [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="iniciarTiempo(index, 'EXPONIENDO')">
             Iniciar
           </button>
         </div>
-       
+
       </ng-container>
-<!-- pregunta -->
-      <div
-        *ngIf="banderaPreparados && !banderaResumen && banderaTema "
-        class="text-center d-flex"
-      >
-        <div
-          id="tiempo_segmento1{{ index }}"
-          class="mr-3"
-          [class.terminado]="item.tiempo_segmento1.terminado"
-        >
+      <!-- pregunta -->
+      <div *ngIf="banderaPreparados && !banderaResumen && banderaTema " class="text-center d-flex">
+        <div id="tiempo_segmento1{{ index }}" class="mr-3" [class.terminado]="item.tiempo_segmento1.terminado">
           <div style="font-size: 12px;">Pregunta</div>
           <div style="font-weight: 500">
             {{ formatTwoDigits(item.tiempo_segmento1.min) }}:{{
-              formatTwoDigits(item.tiempo_segmento1.seg)
+            formatTwoDigits(item.tiempo_segmento1.seg)
             }}
           </div>
         </div>
-        <button
-          id="tiempo_segmento1_button{{ index }}"
-          type="button"
-          class="btn btn-info"
-          [disabled]="banderaTransmitir || banderaEditarCandidatos"
-          (click)="iniciarTiempo(index, 'PREGUNTA')"
-        >
+        <button id="tiempo_segmento1_button{{ index }}" type="button" class="btn btn-info"
+          [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="iniciarTiempo(index, 'PREGUNTA')">
           Iniciar
         </button>
       </div>
       <!-- Respuesta -->
-      <div
-        *ngIf="banderaPreparados && !banderaResumen && banderaTema"
-        class="text-center d-flex"
-      >
-        <div
-          id="tiempo_segmento2{{ index }}"
-          class="ml-3 mr-3"
-          [class.terminado]="item.tiempo_segmento2.terminado"
-        >
+      <div *ngIf="banderaPreparados && !banderaResumen && banderaTema" class="text-center d-flex">
+        <div id="tiempo_segmento2{{ index }}" class="ml-3 mr-3" [class.terminado]="item.tiempo_segmento2.terminado">
           <div style="font-size: 12px;">Respuesta</div>
           <div style="font-weight: 500 ">
             {{ formatTwoDigits(item.tiempo_segmento2.min) }}:{{
-              formatTwoDigits(item.tiempo_segmento2.seg)
+            formatTwoDigits(item.tiempo_segmento2.seg)
             }}
           </div>
         </div>
-        <button
-          id="tiempo_segmento2_button{{ index }}"
-          type="button"
-          class="btn btn-primary"
-          [disabled]="banderaTransmitir || banderaEditarCandidatos"
-          (click)="iniciarTiempo(index, 'RESPUESTA')"
-        >
+        <button id="tiempo_segmento2_button{{ index }}" type="button" class="btn btn-primary"
+          [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="iniciarTiempo(index, 'RESPUESTA')">
           Iniciar
         </button>
       </div>
 
       <!-- Tema -->
-      <div
-      *ngIf="banderaPreparados && !banderaTema"
-      class="text-center d-flex"
-    >
-      <div
-        id="tiempo_tema{{ index }}"
-        class="ml-3 mr-3"
-        [class.terminado]="item.tiempo_tema.terminado"
-      >
-        <div style="font-size: 12px;">Tema</div>
-        <div style="font-weight: 500 ">
-          {{ formatTwoDigits(item.tiempo_tema.min) }}:{{
+      <div *ngIf="banderaPreparados && !banderaTema" class="text-center d-flex">
+        <div id="tiempo_tema{{ index }}" class="ml-3 mr-3" [class.terminado]="item.tiempo_tema.terminado">
+          <div style="font-size: 12px;">Tema</div>
+          <div style="font-weight: 500 ">
+            {{ formatTwoDigits(item.tiempo_tema.min) }}:{{
             formatTwoDigits(item.tiempo_tema.seg)
-          }}
+            }}
+          </div>
         </div>
+        <button id="tiempo_tema_button{{ index }}" type="button" class="btn btn-primary"
+          [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="iniciarTiempo(index, 'TEMA')">
+          Iniciar
+        </button>
       </div>
-      <button
-        id="tiempo_tema_button{{ index }}"
-        type="button"
-        class="btn btn-primary"
-        [disabled]="banderaTransmitir || banderaEditarCandidatos"
-        (click)="iniciarTiempo(index, 'TEMA')"
-      >
-        Iniciar
-      </button>
-    </div>
-    <!-- Segmento de discucion -->
-    <div
-      *ngIf="banderaPreparados && !banderaTema"
-      class="text-center d-flex"
-    >
-      <div
-        id="tiempo_dis{{ index }}"
-        class="ml-3 mr-3"
-        [class.terminado]="item.tiempo_dis.terminado"
-      >
-        <div style="font-size: 12px;">Discusion</div>
-        <div style="font-weight: 500 ">
-          {{ formatTwoDigits(item.tiempo_dis.min) }}:{{
+      <!-- Segmento de discucion -->
+      <div *ngIf="banderaPreparados && !banderaTema" class="text-center d-flex">
+        <div id="tiempo_dis{{ index }}" class="ml-3 mr-3" [class.terminado]="item.tiempo_dis.terminado">
+          <div style="font-size: 12px;">Discusión</div>
+          <div style="font-weight: 500 ">
+            {{ formatTwoDigits(item.tiempo_dis.min) }}:{{
             formatTwoDigits(item.tiempo_dis.seg)
-          }}
+            }}
+          </div>
         </div>
+        <button id="tiempo_dis_button{{ index }}" type="button" class="btn btn-primary"
+          [disabled]="banderaTransmitir || banderaEditarCandidatos" (click)="iniciarTiempo(index, 'DISCUSIÓN')">
+          Iniciar
+        </button>
       </div>
-      <button
-        id="tiempo_dis_button{{ index }}"
-        type="button"
-        class="btn btn-primary"
-        [disabled]="banderaTransmitir || banderaEditarCandidatos"
-        (click)="iniciarTiempo(index, 'DISCUSION')"
-      >
-        Iniciar
-      </button>
-    </div>
-      
+
 
       <ng-container *ngIf="!banderaPreparados">
-        <button
-          *ngIf="item.id_logo == 0"
-          type="button"
-          class="btn btn-primary mr-2"
-          (click)="openDialog(true, index)"
-        >
+        <button *ngIf="item.id_logo == 0" type="button" class="btn btn-primary mr-2" (click)="openDialog(true, index)">
           Partido
         </button>
-        <button
-          *ngIf="item.id_logo == 0"
-          type="button"
-          class="btn btn-info ml-2"
-          (click)="openDialog(false, index)"
-        >
+        <button *ngIf="item.id_logo == 0" type="button" class="btn btn-info ml-2" (click)="openDialog(false, index)">
           Coalición
         </button>
-        <button
-          *ngIf="item.id_logo != 0 && !banderaPreparados"
-          type="button"
-          class="btn btn-danger"
-          (click)="quitarLogo(index, item.id_logo)"
-        >
+        <button *ngIf="item.id_logo != 0 && !banderaPreparados" type="button" class="btn btn-danger"
+          (click)="quitarLogo(index, item.id_logo)">
           Quitar
         </button>
       </ng-container>
     </div>
     <div *ngIf="tipoTiempo == 'Añadir Candidatos'" class="col-md-4 mt-4">
-      <button
-        type="button"
-        class="btn btn-warning mr-4"
-        (click)="openDialogConfirm('Está seguro de reiniciar la configuración')"
-      >
+      <button type="button" class="btn btn-warning mr-4"
+        (click)="openDialogConfirm('Está seguro de reiniciar la configuración')">
         Reiniciar
       </button>
-      <button
-        type="button"
-        class="btn btn-success"
-        (click)="guardarCandidatos(FormCandidatos.valid)"
-      >
+      <button type="button" class="btn btn-success" (click)="guardarCandidatos(FormCandidatos.valid)">
         Guardar
       </button>
     </div>
@@ -568,17 +372,12 @@
   <h2 mat-dialog-title class="text-center">Seleccione el Partido ó Coalición de la Candidatura</h2>
   <div class="text-center">
     <div *ngFor="let item of logosArray">
-      <img
-        [src]="item.imagen"
-        alt=""
-        height="50px"
-        style="cursor: pointer"
-        (click)="selectLogo(item.id, item.clase)"
-      />
+      <img [src]="item.imagen" alt="" height="50px" style="cursor: pointer" (click)="selectLogo(item.id, item.clase)" />
     </div>
   </div>
-    <button mat-button mat-dialog-close class="justify-content-center mx-3 btn-warning" style="font-size: 1.5em;">Cerrar</button>
-  
+  <button mat-button mat-dialog-close class="justify-content-center mx-3 btn-warning"
+    style="font-size: 1.5em;">Cerrar</button>
+
   <!-- </mat-dialog-content> -->
   <!-- <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>cerrar</button>
@@ -591,70 +390,36 @@
   <h2 mat-dialog-title>Ajuste de tiempo</h2>
   <form #formAddTime="ngForm" novalidate>
     <!-- alert -->
-    <div
-      *ngIf="banderaAjusteTiempo"
-      class="alert alert-warning alert-dismissible fade show"
-      role="alert"
-    >
+    <div *ngIf="banderaAjusteTiempo" class="alert alert-warning alert-dismissible fade show" role="alert">
       <div class="text-center"><b>¡Atención!</b> {{ msgAlert }}.</div>
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-        (click)="banderaAjusteTiempo = false"
-      >
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="banderaAjusteTiempo = false">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="row">
-      <div
-        *ngFor="let item of candidatosArray; let index = index"
-        class="col-md-12 d-flex align-items-center"
-      >
+      <div *ngFor="let item of candidatosArray; let index = index" class="col-md-12 d-flex align-items-center">
         <div style="width: 190px; text-align: center">
-          <img
-            [src]="logos.getFuente(item.id_logo, item.id_clase)"
-            alt=""
-            height="40px"
-            style="cursor: pointer"
-          />
+          <img [src]="logos.getFuente(item.id_logo, item.id_clase)" alt="" height="40px" style="cursor: pointer" />
         </div>
         <div class="text-center ml-2 mr-2" style="width: 200px">
           {{ item.nombre }}
         </div>
         <!-- Tiempo Exposición -->
         <div class="mr-4">
-          <h5 class="text-center">Tiempo Exposición</h5>
+          <h5 class="text-center">Tiempo Mensajes</h5>
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
-              <input
-                id="min_exposicion{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="min_expo"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="min_exposicion{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="min_expo" placeholder="00" min="0" max="60" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Segundos*</label>
-              <input
-                id="seg_exposicion{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="seg_expo"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="seg_exposicion{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="seg_expo" placeholder="00" min="0" max="60" />
             </div>
           </div>
-        </div>     
+        </div>
 
         <!--  -->
         <div class="mr-4">
@@ -662,29 +427,13 @@
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
-              <input
-                id="min_seg1{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="min_segmentos"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="min_seg1{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="min_segmentos" placeholder="00" min="0" max="60" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Segundos*</label>
-              <input
-                id="seg_seg1{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="seg_segmentos"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="seg_seg1{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="seg_segmentos" placeholder="00" min="0" max="60" />
             </div>
           </div>
         </div>
@@ -694,29 +443,13 @@
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
-              <input
-                id="min_seg2{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="min_segmentos"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="min_seg2{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="min_segmentos" placeholder="00" min="0" max="60" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Segundos*</label>
-              <input
-                id="seg_seg2{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="seg_segmentos"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="seg_seg2{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="seg_segmentos" placeholder="00" min="0" max="60" />
             </div>
           </div>
         </div>
@@ -726,29 +459,13 @@
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
-              <input
-                id="min_tema{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="min_tema"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="min_tema{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="min_tema" placeholder="00" min="0" max="60" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Segundos*</label>
-              <input
-                id="seg_tema{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="seg_tema"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="seg_tema{{ index }}" type="number" style="text-align: right" class="form-control"
+                name="seg_tema" placeholder="00" min="0" max="60" />
             </div>
           </div>
         </div>
@@ -758,29 +475,13 @@
           <div class="d-flex">
             <div class="form-group mr-3">
               <label for="exampleFormControlInput1">Minutos*</label>
-              <input
-                id="min_dis{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="min_dis"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="min_dis{{ index }}" type="number" style="text-align: right" class="form-control" name="min_dis"
+                placeholder="00" min="0" max="60" />
             </div>
             <div class="form-group">
               <label for="exampleFormControlInput1">Segundos*</label>
-              <input
-                id="seg_dis{{ index }}"
-                type="number"
-                style="text-align: right"
-                class="form-control"
-                name="seg_dis"
-                placeholder="00"
-                min="0"
-                max="60"
-              />
+              <input id="seg_dis{{ index }}" type="number" style="text-align: right" class="form-control" name="seg_dis"
+                placeholder="00" min="0" max="60" />
             </div>
           </div>
         </div>
@@ -789,13 +490,9 @@
   </form>
   <hr />
   <div class="d-flex justify-content-end">
-    <button
-      type="button"
-      class="btn btn-success"
-      (click)="
+    <button type="button" class="btn btn-success" (click)="
         openDialogConfirm('¿Está seguro de guradar los cambios ralizados?')
-      "
-    >
+      ">
       Ajustar
     </button>
     <button mat-button mat-dialog-close>cerrar</button>
@@ -807,14 +504,8 @@
   <h2 mat-dialog-title>Ingrese la contraseña para continuar</h2>
   <mat-dialog-content class="mat-typography">
     <div class="form-group mr-4">
-      <input
-        [(ngModel)]="passAjuste"
-        name="passAjuste"
-        type="password"
-        class="form-control"
-        placeholder="Contraseña"
-        #candidato="ngModel"
-      />
+      <input [(ngModel)]="passAjuste" name="passAjuste" type="password" class="form-control" placeholder="Contraseña"
+        #candidato="ngModel" />
     </div>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
@@ -831,22 +522,10 @@
     {{ textoConfirmar }}
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button
-      (click)="banderaConfirmar = true"
-      mat-button
-      mat-dialog-close
-      type="button"
-      class="btn btn-success"
-    >
+    <button (click)="banderaConfirmar = true" mat-button mat-dialog-close type="button" class="btn btn-success">
       Confirmar
     </button>
-    <button
-      (click)="banderaConfirmar = false"
-      mat-button
-      mat-dialog-close
-      type="button"
-      class="btn btn-danger"
-    >
+    <button (click)="banderaConfirmar = false" mat-button mat-dialog-close type="button" class="btn btn-danger">
       Cancelar
     </button>
     <!-- <button mat-button mat-dialog-close>cerrar</button> -->
@@ -857,19 +536,9 @@
   <h2 mat-dialog-title>Cierre del Debate</h2>
   <mat-dialog-content class="mat-typography">
     <!--  -->
-    <div
-      *ngIf="bandera_guardar"
-      class="alert alert-warning alert-dismissible fade show"
-      role="alert"
-    >
+    <div *ngIf="bandera_guardar" class="alert alert-warning alert-dismissible fade show" role="alert">
       <div class="text-center"><b>¡Atención!</b> {{ msgAlert }}.</div>
-      <button
-        type="button"
-        class="close"
-        data-dismiss="alert"
-        aria-label="Close"
-        (click)="bandera_guardar = false"
-      >
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="bandera_guardar = false">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -880,43 +549,20 @@
         <div class="d-flex">
           <div class="form-group mr-3">
             <label for="exampleFormControlInput1">Minutos*</label>
-            <input
-              id="inp_min_cierre"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="min_cierre"
-              placeholder="00"
-              min="0"
-              max="60"
-              required
-            />
+            <input id="inp_min_cierre" type="number" style="text-align: right" class="form-control" name="min_cierre"
+              placeholder="00" min="0" max="60" required />
           </div>
           <div class="form-group">
             <label for="exampleFormControlInput1">Segundos*</label>
-            <input
-              id="inp_seg_cierre"
-              type="number"
-              style="text-align: right"
-              class="form-control"
-              name="seg_cierre"
-              placeholder="00"
-              min="0"
-              max="60"
-              required
-            />
+            <input id="inp_seg_cierre" type="number" style="text-align: right" class="form-control" name="seg_cierre"
+              placeholder="00" min="0" max="60" required />
           </div>
         </div>
       </div>
     </form>
   </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button
-      (click)="cierreDebate()"
-      mat-button
-      type="button"
-      class="btn btn-success"
-    >
+    <button (click)="cierreDebate()" mat-button type="button" class="btn btn-success">
       Confirmar
     </button>
     <button mat-button mat-dialog-close type="button" class="btn btn-danger">
@@ -950,7 +596,7 @@
             <b>Tiempo Exposición: &nbsp;&nbsp;</b>
             <div>
               &nbsp; {{ formatTwoDigits(item2.tiempo_exposicion.min) }}:{{
-                formatTwoDigits(item2.tiempo_exposicion.seg)
+              formatTwoDigits(item2.tiempo_exposicion.seg)
               }}
             </div>
             <br />
@@ -958,7 +604,7 @@
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_segmento1.min) }}:{{
-                formatTwoDigits(item2.tiempo_segmento1.seg)
+              formatTwoDigits(item2.tiempo_segmento1.seg)
               }}
             </div>
             <br />
@@ -966,7 +612,7 @@
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_segmento2.min) }}:{{
-                formatTwoDigits(item2.tiempo_segmento2.seg)
+              formatTwoDigits(item2.tiempo_segmento2.seg)
               }}
             </div>
             <br />
@@ -974,7 +620,7 @@
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_tema.min) }}:{{
-                formatTwoDigits(item2.tiempo_tema.seg)
+              formatTwoDigits(item2.tiempo_tema.seg)
               }}
             </div>
             <br />
@@ -982,7 +628,7 @@
             <div>
               &nbsp;
               {{ formatTwoDigits(item2.tiempo_dis.min) }}:{{
-                formatTwoDigits(item2.tiempo_dis.seg)
+              formatTwoDigits(item2.tiempo_dis.seg)
               }}
             </div>
             <br />

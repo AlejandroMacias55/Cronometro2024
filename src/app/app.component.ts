@@ -12,6 +12,9 @@ import { LogosService } from './logos.service';
 //
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
+//
+import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-root',
@@ -44,6 +47,11 @@ export class AppComponent {
   banderaPreparados = false;
   //Index candidato seleccionado
   indexSeleccionado: number;
+  //bandera discusion y valores discusion
+  banderaDiscusion=false;
+  min_dis: number;
+  seg_dis: number;
+
   // Variable para cerrar la modal
   dialogRef;
   dialogRefTiempo;
@@ -59,6 +67,8 @@ export class AppComponent {
   banderaResumen = true;
   //Para saber si es tema
   banderaTema= true;
+  //para saber si es exposicion
+  banderaExpo=true;
   // Bandera para saber si alguien está hablando
   banderaTransmitir = false;
   //Bandera para el ajuste de los tiempos de un candidato
@@ -165,23 +175,23 @@ export class AppComponent {
           terminado: false,
         },
         tiempo_segmento1: {
-          min: 0,
-          seg: 15,
+          min: this.confInicial.tiempo_pregunta_min,
+          seg: this.confInicial.tiempo_pregunta_seg,
           terminado: false,
         },
         tiempo_segmento2: {
-          min: 0,
-          seg: 45,
+          min: this.confInicial.tiempo_respuesta_min,
+          seg: this.confInicial.tiempo_respuesta_seg,
           terminado: false,
         },
         tiempo_tema: {
-          min: 1,
-          seg: 30,
+          min: this.confInicial.tiempo_bolsa_min,
+          seg: this.confInicial.tiempo_bolsa_seg,
           terminado: false,
         },
         tiempo_dis:{
-          min:1,
-          seg:0,
+          min:this.confInicial.tiempo_segmento_min,
+          seg:this.confInicial.tiempo_segmento_seg,
           terminado:false,
         }
       };
@@ -193,6 +203,10 @@ export class AppComponent {
         array
       );
     } else this.candidatosArray = array;
+
+    this.min_dis=this.confInicial.tiempo_segmento_min;
+    this.seg_dis=this.confInicial.tiempo_segmento_seg;
+
   }
 
   nuevoBloque(array) {
@@ -216,8 +230,10 @@ export class AppComponent {
     this.iniciarSeleccionado();
     this.tipoTiempo = 'Listo Para Comenzar';
     this.banderaPreparados = true;
+    this.banderaDiscusion=false;
     this.banderaResumen = true;
     this.banderaTema = true;
+    this.banderaExpo=true;
     this.detenerTiempo();
   }
 
@@ -360,10 +376,16 @@ export class AppComponent {
     this.arrayLogos = [];
     this.confInicial = new ConfInicial();
     this.estado = new Array<Estado>();
+    //banderadiscusion
+
     this.banderaPreparados = false;
+    this.banderaDiscusion=false;
     this.banderaResumen = true;
+    this.banderaExpo=false;
     this.banderaTema = true;
+    this.banderaTransmitir=false;
     this.banderaCierre = false;
+    this.banderaEditarCandidatos=false;
     this.numeroBloque = 1;
     this.iniciarSeleccionado();
     localStorage.clear();
@@ -399,6 +421,7 @@ export class AppComponent {
 
   iniciarTiempo(index, tipo_tiempo) {
     this.banderaTransmitir = true;
+    this,this.banderaExpo=true;
     this.tipoTiempo = tipo_tiempo;
     this.claveTiempo =
       this.tipoTiempo == 'EXPONIENDO'
@@ -407,7 +430,7 @@ export class AppComponent {
         // ? 'tiempo_seg_bolsa'
         this.tipoTiempo == 'TEMA'
         ? 'tiempo_tema':
-        this.tipoTiempo == 'DISCUSION'
+        this.tipoTiempo == 'DISCUSIÓN'
         ? 'tiempo_dis':
         this.tipoTiempo == 'PREGUNTA'
         ? 'tiempo_segmento1'
@@ -438,7 +461,8 @@ export class AppComponent {
       this.candidatoSeleccionado.tiempo.terminado = this.candidatosArray[index][
         this.claveTiempo
       ].terminado;
-    } else {
+    } 
+    else {
       this.calcularTiempoBolsa(index);
     }
     this.inicarTemporizador();
@@ -548,6 +572,7 @@ export class AppComponent {
       this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
       this.dialogCerrar.close();
       this.banderaResumen = true;
+      this.banderaExpo=true;
       this.banderaTema=true;
       this.banderaCierre = true;
     }
@@ -558,6 +583,9 @@ export class AppComponent {
       this.candidatoSeleccionado.tiempo.terminado = false;
     if (!this.banderaTema )
       this.candidatoSeleccionado.tiempo.terminado = false;
+    if (!this.banderaExpo )
+      this.candidatoSeleccionado.tiempo.terminado = false;
+    
     this.detenerTiempo();
     document
       .getElementById(this.claveTiempo + this.indexCandidatoArray)
@@ -573,11 +601,11 @@ export class AppComponent {
     this.tempo = setInterval(() => this.temporizar(), 1000);
   }
 
-
   detenerTiempo() {
-    let conf = this.almacenamientoLocal.getConfInicial();
-    this.confInicial.tiempo_bolsa_min = conf.tiempo_bolsa_min;
-    this.confInicial.tiempo_bolsa_seg = conf.tiempo_bolsa_seg;
+   // let conf = this.almacenamientoLocal.getConfInicial();
+   // this.confInicial.tiempo_bolsa_min = conf.tiempo_bolsa_min;
+   // this.confInicial.tiempo_bolsa_seg = conf.tiempo_bolsa_seg;
+   
     clearInterval(this.tempo);
     if (this.indexCandidatoArray != undefined) {
       let botones = [
@@ -606,7 +634,16 @@ export class AppComponent {
   }
 
   temporizar() {
-    if (this.banderaResumen) {
+    //Bandera para saber si es expo
+    if (this.banderaResumen && this.banderaTema) {
+      this.banderaExpo=false; 
+    }
+    if (this.tipoTiempo == 'DISCUSIÓN') {
+      console.log('Este es un mensaje de ejemplo');   
+      this.banderaDiscusion=true;
+    }
+    //que entre a resumen
+    if (this.banderaResumen && this.banderaExpo) {
       this.candidatosArray[this.indexCandidatoArray][this.claveTiempo].seg--;
       if (--this.candidatoSeleccionado.tiempo.seg < 0) {
         this.candidatoSeleccionado.tiempo.seg = 59;
@@ -634,7 +671,7 @@ export class AppComponent {
       }
     } 
     //bandera tema prueba
-    if (this.banderaTema) {
+    if (this.banderaTema  ) {
       this.candidatosArray[this.indexCandidatoArray][this.claveTiempo].seg--;
       if (--this.candidatoSeleccionado.tiempo.seg < 0) {
         this.candidatoSeleccionado.tiempo.seg = 59;
@@ -660,9 +697,10 @@ export class AppComponent {
           this.dejarTransmitir();
         }
       }
-    }else {
-      if (this.descontarBolsa()) this.descontarSegmentoDiscusion();
     }
+    //else {
+     // if (this.descontarBolsa()) this.descontarSegmentoDiscusion();
+   // }
     this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
   }
 
@@ -849,14 +887,15 @@ export class AppComponent {
       this.candidatosArray = new Array<Candidato>();
       this.arrayLogos = [];
       this.confInicial = new ConfInicial();
-      this.banderaPreparados = false;
-      this.banderaResumen = true;
-      this.banderaTema=true;
+      
       this.numeroBloque = 1;
       this.estado = new Array<Estado>();
       this.iniciarSeleccionado();
       this.reiniciar();
+      this.almacenamientoLocal = new AlmacenamientoLocal();
+      
       localStorage.clear();
+      
     }, 2000);
     // }
   }
@@ -915,59 +954,115 @@ export class AppComponent {
       this.msgAlert = 'El tiempo exposición debe tener al menos 1 segundo';
       return false;
     }
-    //Tiempo Bolsa
-    // else if (controls.min_bolsa.value == undefined) {
-    //   this.msgAlert =
-    //     'El campo minutos del tiempo de bolsa no debe de ir vacío';
-    //   return false;
-    // } else if (
-    //   !(controls.min_bolsa.value > -1 && controls.min_bolsa.value < 60)
-    // ) {
-    //   this.msgAlert =
-    //     'Los minutos del tiempo de bolsa deben entrar en el rango 0 - 59';
-    //   return false;
-    // } else if (controls.seg_bolsa.value == undefined) {
-    //   this.msgAlert =
-    //     'El campo segundos del tiempo de bolsa no debe de ir vacío';
-    //   return false;
-    // } else if (
-    //   !(controls.seg_bolsa.value > -1 && controls.seg_bolsa.value < 60)
-    // ) {
-    //   this.msgAlert =
-    //     'Los segundos del tiempo de bolsa deben entrar en el rango 0 - 59';
-    //   return false;
-    // } else if (controls.min_bolsa.value == 0 && controls.seg_bolsa.value == 0) {
-    //   this.msgAlert = 'El tiempo de bolsa debe tener al menos 1 segundo';
-    //   return false;
-    // }
-    //Tiempo Segmentos
-    // else if (controls.min_segmentos.value == undefined) {
-    //   this.msgAlert =
-    //     'El campo minutos del tiempo de segmentos no debe de ir vacío';
-    //   return false;
-    // } else if (
-    //   !(controls.min_segmentos.value > -1 && controls.min_segmentos.value < 60)
-    // ) {
-    //   this.msgAlert =
-    //     'Los minutos del tiempo segmentos deben entrar en el rango 0 - 59';
-    //   return false;
-    // } else if (controls.seg_segmentos.value == undefined) {
-    //   this.msgAlert =
-    //     'El campo segundos del tiempo de segmentos no debe de ir vacío';
-    //   return false;
-    // } else if (
-    //   !(controls.seg_segmentos.value > -1 && controls.seg_segmentos.value < 60)
-    // ) {
-    //   this.msgAlert =
-    //     'Los segundos del tiempo segmentos deben entrar en el rango 0 - 59';
-    //   return false;
-    // } else if (
-    //   controls.min_segmentos.value == 0 &&
-    //   controls.seg_segmentos.value == 0
-    // ) {
-    //   this.msgAlert = 'El tiempo segmentos debe tener al menos 1 segundo';
-    //   return false;
-    // }
+    //Tiempo Tema
+    else if (controls.min_bolsa.value == undefined) {
+      this.msgAlert =
+        'El campo minutos del tiempo de Tema no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.min_bolsa.value > -1 && controls.min_bolsa.value < 60)
+    ) {
+      this.msgAlert =
+        'Los minutos del tiempo de Tema deben entrar en el rango 0 - 59';
+      return false;
+    } else if (controls.seg_bolsa.value == undefined) {
+      this.msgAlert =
+        'El campo segundos del tiempo de Tema no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.seg_bolsa.value > -1 && controls.seg_bolsa.value < 60)
+    ) {
+      this.msgAlert =
+        'Los segundos del tiempo de Tema deben entrar en el rango 0 - 59';
+      return false;
+    } else if (controls.min_bolsa.value == 0 && controls.seg_bolsa.value == 0) {
+      this.msgAlert = 'El tiempo de Tema debe tener al menos 1 segundo';
+      return false;
+    }
+    //Tiempo Discusion
+    else if (controls.min_segmentos.value == undefined) {
+      this.msgAlert =
+        'El campo minutos del tiempo de segmentos de discusion no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.min_segmentos.value > -1 && controls.min_segmentos.value < 60)
+    ) {
+      this.msgAlert =
+        'Los minutos del tiempo segmentos de discusion deben entrar en el rango 0 - 59';
+      return false;
+    } else if (controls.seg_segmentos.value == undefined) {
+      this.msgAlert =
+        'El campo segundos del tiempo de segmentos de discusion no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.seg_segmentos.value > -1 && controls.seg_segmentos.value < 60)
+    ) {
+      this.msgAlert =
+        'Los segundos del tiempo segmentos de discusion deben entrar en el rango 0 - 59';
+      return false;
+    } else if (
+      controls.min_segmentos.value == 0 &&
+      controls.seg_segmentos.value == 0
+    ) {
+      this.msgAlert = 'El tiempo segmentos de discusion debe tener al menos 1 segundo';
+      return false;
+    }
+     //Tiempo Pregunta
+     else if (controls.min_pregunta.value == undefined) {
+      this.msgAlert =
+        'El campo minutos del tiempo de pregunta no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.min_pregunta.value > -1 && controls.min_pregunta.value < 60)
+    ) {
+      this.msgAlert =
+        'Los minutos del tiempo pregunta no deben entrar en el rango 0 - 59';
+      return false;
+    } else if (controls.seg_pregunta.value == undefined) {
+      this.msgAlert =
+        'El campo segundos de pregunta de pregunta no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.seg_pregunta.value > -1 && controls.seg_pregunta.value < 60)
+    ) {
+      this.msgAlert =
+        'Los segundos del tiempo de pregunta deben entrar en el rango 0 - 59';
+      return false;
+    } else if (
+      controls.min_pregunta.value == 0 &&
+      controls.seg_pregunta.value == 0
+    ) {
+      this.msgAlert = 'El tiempo pregunta debe tener al menos 1 segundo';
+      return false;
+    }
+    //Tiempo Respuesta
+    else if (controls.min_respuesta.value == undefined) {
+      this.msgAlert =
+        'El campo minutos del tiempo de respuesta no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.min_respuesta.value > -1 && controls.min_respuesta.value < 60)
+    ) {
+      this.msgAlert =
+        'Los minutos del tiempo respuesta no deben entrar en el rango 0 - 59';
+      return false;
+    } else if (controls.seg_respuesta.value == undefined) {
+      this.msgAlert =
+        'El campo segundos de respuesta de respuesta no debe de ir vacío';
+      return false;
+    } else if (
+      !(controls.seg_respuesta.value > -1 && controls.seg_respuesta.value < 60)
+    ) {
+      this.msgAlert =
+        'Los segundos del tiempo de respuesta deben entrar en el rango 0 - 59';
+      return false;
+    } else if (
+      controls.min_respuesta.value == 0 &&
+      controls.seg_respuesta.value == 0
+    ) {
+      this.msgAlert = 'El tiempo de la respuesta debe tener al menos 1 segundo';
+      return false;
+    }
 
     return true;
   }

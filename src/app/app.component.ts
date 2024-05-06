@@ -13,8 +13,8 @@ import { LogosService } from './logos.service';
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 //
-import { Observable } from 'rxjs';
 
+  
 
 @Component({
   selector: 'app-root',
@@ -208,6 +208,7 @@ export class AppComponent {
     this.seg_dis=this.confInicial.tiempo_segmento_seg;
 
   }
+  
 
   nuevoBloque(array) {
     var d = new Date();
@@ -298,12 +299,13 @@ export class AppComponent {
     });
   }
 
-  openDialogConfirm(mensaje: string, array?: any) {
+  openDialogConfirm(mensaje: string, array?: any, p0?: { position: { top: string; }; }) {
     this.banderaConfirmar = false;
     this.textoConfirmar = mensaje;
     let pos: DialogPosition;
     pos = {
-      top: '34vh',
+      bottom: '10px', // Ajusta la distancia desde la parte inferior según sea necesario
+      left: '35%', // Centra horizontalmente el diálogo
     };
     this.dialogConfirmar = this.dialog.open(this.confirmDialog, {
       width: '30%',
@@ -341,6 +343,8 @@ export class AppComponent {
         'Este logo ya está siendo usado por otro candidato'
       );
   }
+
+  
 
   verificarLogos(id: number) {
     let bandera = true;
@@ -417,7 +421,11 @@ export class AppComponent {
         'Debe de añadir el nombre del candidato a todos los campos'
       );
     }
+
+ 
   }
+
+
 
   iniciarTiempo(index, tipo_tiempo) {
     this.banderaTransmitir = true;
@@ -602,10 +610,6 @@ export class AppComponent {
   }
 
   detenerTiempo() {
-   // let conf = this.almacenamientoLocal.getConfInicial();
-   // this.confInicial.tiempo_bolsa_min = conf.tiempo_bolsa_min;
-   // this.confInicial.tiempo_bolsa_seg = conf.tiempo_bolsa_seg;
-   
     clearInterval(this.tempo);
     if (this.indexCandidatoArray != undefined) {
       let botones = [
@@ -628,6 +632,28 @@ export class AppComponent {
           boton.classList.remove('btn-danger');
           boton.classList.remove('blink_me');
           boton.innerHTML = 'Iniciar';
+           // Para resetear Discusion
+           if (this.banderaDiscusion) {
+            this.ajusteArray = [];
+            console.log('Se hizo clic en el botón tiempo_dis');
+            for (let index = 0; index < this.candidatosArray.length; index++) {
+              let valores: any = {};
+              valores['disMin'] = 1;
+              valores['disSeg'] = 0;
+              this.ajusteArray.push(valores);
+            }
+            for (let index = 0; index < this.ajusteArray.length; index++) {
+              if (this.ajusteArray[index].disMin != '') {
+                this.candidatosArray[index].tiempo_dis.min = this.min_dis;
+              }
+              if (this.ajusteArray[index].temaSeg != '') {
+                this.candidatosArray[index].tiempo_dis.seg = this.seg_dis;
+              }
+              
+            }
+            this.almacenamientoLocal.setArrayCandidatos(this.candidatosArray);
+            this.banderaDiscusion=!this.banderaDiscusion;
+          }
         } catch (error) {}
       });
     }
@@ -1211,3 +1237,4 @@ export class AppComponent {
     return true;
   }
 }
+
